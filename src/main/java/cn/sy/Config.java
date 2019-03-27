@@ -1,26 +1,19 @@
 package cn.sy;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.servlet.MultipartConfigElement;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class Config {
-//
-//    @Value("${sy.uploaddir}")
-//    private String dir;
-
-//    @Bean
-//    MultipartConfigElement multipartConfigElement() {
-//        MultipartConfigFactory factory = new MultipartConfigFactory();
-//        Path basedir = Paths.get(dir);
-//        System.out.println("Config. set location: " + basedir);
-//        factory.setLocation(basedir.toAbsolutePath().toString());
-//        return factory.createMultipartConfig();
-//    }
+@EnableWebSecurity
+public class Config extends WebSecurityConfigurerAdapter {
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+    }
 }
